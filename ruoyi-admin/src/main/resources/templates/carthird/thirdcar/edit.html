@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改司机1035312053')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-thirdcar-edit" th:object="${thirdcar}">
+            <input name="thirddingdanId" th:field="*{thirddingdanId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">司机3车号：</label>
+                <div class="col-sm-8">
+                    <input name="thirdpeicheId" th:field="*{thirdpeicheId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">来源单号：</label>
+                <div class="col-sm-8">
+                    <input name="thirdlaiyuanId" th:field="*{thirdlaiyuanId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">下单时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="thirdxiadanTime" th:value="${#dates.format(thirdcar.thirdxiadanTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户名：</label>
+                <div class="col-sm-8">
+                    <input name="thirduserNametwo" th:field="*{thirduserNametwo}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-8">
+                    <input name="thirddizhi" th:field="*{thirddizhi}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">要求时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="thirdyaoqiuTime" th:value="${#dates.format(thirdcar.thirdyaoqiuTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">完成状态：</label>
+                <div class="col-sm-8">
+                    <input name="thirdwanchengState" th:field="*{thirdwanchengState}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "carthird/thirdcar";
+        $("#form-thirdcar-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-thirdcar-edit').serialize());
+            }
+        }
+
+        $("input[name='thirdxiadanTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='thirdyaoqiuTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

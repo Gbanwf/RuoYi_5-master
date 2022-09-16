@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.orderinfo.mapper.OrderDdMapper">
+    
+    <resultMap type="OrderDd" id="OrderDdResult">
+        <result property="dingdanId"    column="dingdan_id"    />
+        <result property="laiyuanId"    column="laiyuan_id"    />
+        <result property="xiadanTime"    column="xiadan_time"    />
+        <result property="userNametwo"    column="user_nametwo"    />
+        <result property="dizhi"    column="dizhi_"    />
+        <result property="yaoqiuTime"    column="yaoqiu_time"    />
+        <result property="peicheId"    column="peiche_id"    />
+        <result property="wanchengState"    column="wancheng_state"    />
+    </resultMap>
+
+    <sql id="selectOrderDdVo">
+        select dingdan_id, laiyuan_id, xiadan_time, user_nametwo, dizhi_, yaoqiu_time, peiche_id, wancheng_state from order_dd
+    </sql>
+
+    <select id="selectOrderDdList" parameterType="OrderDd" resultMap="OrderDdResult">
+        <include refid="selectOrderDdVo"/>
+        <where>  
+            <if test="dingdanId != null  and dingdanId != ''"> and dingdan_id = #{dingdanId}</if>
+            <if test="laiyuanId != null  and laiyuanId != ''"> and laiyuan_id = #{laiyuanId}</if>
+            <if test="xiadanTime != null "> and xiadan_time = #{xiadanTime}</if>
+            <if test="userNametwo != null  and userNametwo != ''"> and user_nametwo = #{userNametwo}</if>
+            <if test="dizhi != null  and dizhi != ''"> and dizhi_ = #{dizhi}</if>
+            <if test="yaoqiuTime != null "> and yaoqiu_time = #{yaoqiuTime}</if>
+            <if test="peicheId != null  and peicheId != ''"> and peiche_id = #{peicheId}</if>
+            <if test="wanchengState != null  and wanchengState != ''"> and wancheng_state = #{wanchengState}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderDdByDingdanId" parameterType="String" resultMap="OrderDdResult">
+        <include refid="selectOrderDdVo"/>
+        where dingdan_id = #{dingdanId}
+    </select>
+        
+    <insert id="insertOrderDd" parameterType="OrderDd">
+        insert into order_dd
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dingdanId != null">dingdan_id,</if>
+            <if test="laiyuanId != null">laiyuan_id,</if>
+            <if test="xiadanTime != null">xiadan_time,</if>
+            <if test="userNametwo != null">user_nametwo,</if>
+            <if test="dizhi != null">dizhi_,</if>
+            <if test="yaoqiuTime != null">yaoqiu_time,</if>
+            <if test="peicheId != null">peiche_id,</if>
+            <if test="wanchengState != null">wancheng_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dingdanId != null">#{dingdanId},</if>
+            <if test="laiyuanId != null">#{laiyuanId},</if>
+            <if test="xiadanTime != null">#{xiadanTime},</if>
+            <if test="userNametwo != null">#{userNametwo},</if>
+            <if test="dizhi != null">#{dizhi},</if>
+            <if test="yaoqiuTime != null">#{yaoqiuTime},</if>
+            <if test="peicheId != null">#{peicheId},</if>
+            <if test="wanchengState != null">#{wanchengState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderDd" parameterType="OrderDd">
+        update order_dd
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="laiyuanId != null">laiyuan_id = #{laiyuanId},</if>
+            <if test="xiadanTime != null">xiadan_time = #{xiadanTime},</if>
+            <if test="userNametwo != null">user_nametwo = #{userNametwo},</if>
+            <if test="dizhi != null">dizhi_ = #{dizhi},</if>
+            <if test="yaoqiuTime != null">yaoqiu_time = #{yaoqiuTime},</if>
+            <if test="peicheId != null">peiche_id = #{peicheId},</if>
+            <if test="wanchengState != null">wancheng_state = #{wanchengState},</if>
+        </trim>
+        where dingdan_id = #{dingdanId}
+    </update>
+
+    <delete id="deleteOrderDdByDingdanId" parameterType="String">
+        delete from order_dd where dingdan_id = #{dingdanId}
+    </delete>
+
+    <delete id="deleteOrderDdByDingdanIds" parameterType="String">
+        delete from order_dd where dingdan_id in 
+        <foreach item="dingdanId" collection="array" open="(" separator="," close=")">
+            #{dingdanId}
+        </foreach>
+    </delete>
+
+</mapper>

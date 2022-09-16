@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改订单信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-dd-edit" th:object="${orderDd}">
+            <input name="dingdanId" th:field="*{dingdanId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">来源单号：</label>
+                <div class="col-sm-8">
+                    <input name="laiyuanId" th:field="*{laiyuanId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">下单时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="xiadanTime" th:value="${#dates.format(orderDd.xiadanTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户：</label>
+                <div class="col-sm-8">
+                    <input name="userNametwo" th:field="*{userNametwo}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-8">
+                    <input name="dizhi" th:field="*{dizhi}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">要求送达时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="yaoqiuTime" th:value="${#dates.format(orderDd.yaoqiuTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">配车号：</label>
+                <div class="col-sm-8">
+                    <input name="peicheId" th:field="*{peicheId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">完成状态：</label>
+                <div class="col-sm-8">
+                    <select name="wanchengState" class="form-control m-b" th:with="type=${@dict.getType('sys_order_state')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{wanchengState}"></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "orderinfo/dd";
+        $("#form-dd-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-dd-edit').serialize());
+            }
+        }
+
+        $("input[name='xiadanTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='yaoqiuTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

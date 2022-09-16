@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('司机1035332126列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>司机2车号：</label>
+                                <input type="text" name="secondpeicheId"/>
+                            </li>
+                            <li>
+                                <label>来源单号：</label>
+                                <input type="text" name="secondlaiyuanId"/>
+                            </li>
+                            <li>
+                                <label>下单时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择下单时间" name="secondxiadanTime"/>
+                            </li>
+                            <li>
+                                <label>用户名：</label>
+                                <input type="text" name="seconduserNametwo"/>
+                            </li>
+                            <li>
+                                <label>dizhi：</label>
+                                <input type="text" name="seconddizhi"/>
+                            </li>
+                            <li>
+                                <label>要求送达时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择要求送达时间" name="secondyaoqiuTime"/>
+                            </li>
+                            <li>
+                                <label>完成状态：</label>
+                                <select name="secondwanchengState" th:with="type=${@dict.getType('wancheng_statu')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="carsecond:secondcar:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="carsecond:secondcar:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="carsecond:secondcar:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="carsecond:secondcar:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('carsecond:secondcar:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('carsecond:secondcar:remove')}]];
+        var secondwanchengStateDatas = [[${@dict.getType('wancheng_statu')}]];
+        var prefix = ctx + "carsecond/secondcar";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "司机1035332126",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'secondpeicheId',
+                    title: '司机2车号'
+                },
+                {
+                    field: 'seconddingdanId',
+                    title: '订单号',
+                    visible: false
+                },
+                {
+                    field: 'secondlaiyuanId',
+                    title: '来源单号'
+                },
+                {
+                    field: 'secondxiadanTime',
+                    title: '下单时间'
+                },
+                {
+                    field: 'seconduserNametwo',
+                    title: '用户名'
+                },
+                {
+                    field: 'seconddizhi',
+                    title: 'dizhi'
+                },
+                {
+                    field: 'secondyaoqiuTime',
+                    title: '要求送达时间'
+                },
+                {
+                    field: 'secondwanchengState',
+                    title: '完成状态',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(secondwanchengStateDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.seconddingdanId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.seconddingdanId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

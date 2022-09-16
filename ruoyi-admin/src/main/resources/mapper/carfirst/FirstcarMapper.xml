@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.carfirst.mapper.FirstcarMapper">
+    
+    <resultMap type="Firstcar" id="FirstcarResult">
+        <result property="firstpeicheId"    column="firstpeiche_id"    />
+        <result property="firstdingdanId"    column="firstdingdan_id"    />
+        <result property="firstlaiyuanId"    column="firstlaiyuan_id"    />
+        <result property="firstxiadanTime"    column="firstxiadan_time"    />
+        <result property="firstuserNametwo"    column="firstuser_nametwo"    />
+        <result property="firstdizhi"    column="firstdizhi_"    />
+        <result property="firstyaoqiuTime"    column="firstyaoqiu_time"    />
+        <result property="firstwanchengState"    column="firstwancheng_state"    />
+    </resultMap>
+
+    <sql id="selectFirstcarVo">
+        select firstpeiche_id, firstdingdan_id, firstlaiyuan_id, firstxiadan_time, firstuser_nametwo, firstdizhi_, firstyaoqiu_time, firstwancheng_state from firstcar
+    </sql>
+
+    <select id="selectFirstcarList" parameterType="Firstcar" resultMap="FirstcarResult">
+        <include refid="selectFirstcarVo"/>
+        <where>  
+            <if test="firstpeicheId != null  and firstpeicheId != ''"> and firstpeiche_id = #{firstpeicheId}</if>
+            <if test="firstlaiyuanId != null  and firstlaiyuanId != ''"> and firstlaiyuan_id = #{firstlaiyuanId}</if>
+            <if test="firstxiadanTime != null "> and firstxiadan_time = #{firstxiadanTime}</if>
+            <if test="firstuserNametwo != null  and firstuserNametwo != ''"> and firstuser_nametwo = #{firstuserNametwo}</if>
+            <if test="firstdizhi != null  and firstdizhi != ''"> and firstdizhi_ = #{firstdizhi}</if>
+            <if test="firstyaoqiuTime != null "> and firstyaoqiu_time = #{firstyaoqiuTime}</if>
+            <if test="firstwanchengState != null  and firstwanchengState != ''"> and firstwancheng_state = #{firstwanchengState}</if>
+        </where>
+    </select>
+    
+    <select id="selectFirstcarByFirstdingdanId" parameterType="String" resultMap="FirstcarResult">
+        <include refid="selectFirstcarVo"/>
+        where firstdingdan_id = #{firstdingdanId}
+    </select>
+        
+    <insert id="insertFirstcar" parameterType="Firstcar">
+        insert into firstcar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firstpeicheId != null">firstpeiche_id,</if>
+            <if test="firstdingdanId != null">firstdingdan_id,</if>
+            <if test="firstlaiyuanId != null">firstlaiyuan_id,</if>
+            <if test="firstxiadanTime != null">firstxiadan_time,</if>
+            <if test="firstuserNametwo != null">firstuser_nametwo,</if>
+            <if test="firstdizhi != null">firstdizhi_,</if>
+            <if test="firstyaoqiuTime != null">firstyaoqiu_time,</if>
+            <if test="firstwanchengState != null">firstwancheng_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firstpeicheId != null">#{firstpeicheId},</if>
+            <if test="firstdingdanId != null">#{firstdingdanId},</if>
+            <if test="firstlaiyuanId != null">#{firstlaiyuanId},</if>
+            <if test="firstxiadanTime != null">#{firstxiadanTime},</if>
+            <if test="firstuserNametwo != null">#{firstuserNametwo},</if>
+            <if test="firstdizhi != null">#{firstdizhi},</if>
+            <if test="firstyaoqiuTime != null">#{firstyaoqiuTime},</if>
+            <if test="firstwanchengState != null">#{firstwanchengState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirstcar" parameterType="Firstcar">
+        update firstcar
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="firstpeicheId != null">firstpeiche_id = #{firstpeicheId},</if>
+            <if test="firstlaiyuanId != null">firstlaiyuan_id = #{firstlaiyuanId},</if>
+            <if test="firstxiadanTime != null">firstxiadan_time = #{firstxiadanTime},</if>
+            <if test="firstuserNametwo != null">firstuser_nametwo = #{firstuserNametwo},</if>
+            <if test="firstdizhi != null">firstdizhi_ = #{firstdizhi},</if>
+            <if test="firstyaoqiuTime != null">firstyaoqiu_time = #{firstyaoqiuTime},</if>
+            <if test="firstwanchengState != null">firstwancheng_state = #{firstwanchengState},</if>
+        </trim>
+        where firstdingdan_id = #{firstdingdanId}
+    </update>
+
+    <delete id="deleteFirstcarByFirstdingdanId" parameterType="String">
+        delete from firstcar where firstdingdan_id = #{firstdingdanId}
+    </delete>
+
+    <delete id="deleteFirstcarByFirstdingdanIds" parameterType="String">
+        delete from firstcar where firstdingdan_id in 
+        <foreach item="firstdingdanId" collection="array" open="(" separator="," close=")">
+            #{firstdingdanId}
+        </foreach>
+    </delete>
+
+</mapper>

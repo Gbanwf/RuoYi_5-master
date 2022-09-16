@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.carthird.mapper.ThirdcarMapper">
+    
+    <resultMap type="Thirdcar" id="ThirdcarResult">
+        <result property="thirdpeicheId"    column="thirdpeiche_id"    />
+        <result property="thirddingdanId"    column="thirddingdan_id"    />
+        <result property="thirdlaiyuanId"    column="thirdlaiyuan_id"    />
+        <result property="thirdxiadanTime"    column="thirdxiadan_time"    />
+        <result property="thirduserNametwo"    column="thirduser_nametwo"    />
+        <result property="thirddizhi"    column="thirddizhi_"    />
+        <result property="thirdyaoqiuTime"    column="thirdyaoqiu_time"    />
+        <result property="thirdwanchengState"    column="thirdwancheng_state"    />
+    </resultMap>
+
+    <sql id="selectThirdcarVo">
+        select thirdpeiche_id, thirddingdan_id, thirdlaiyuan_id, thirdxiadan_time, thirduser_nametwo, thirddizhi_, thirdyaoqiu_time, thirdwancheng_state from thirdcar
+    </sql>
+
+    <select id="selectThirdcarList" parameterType="Thirdcar" resultMap="ThirdcarResult">
+        <include refid="selectThirdcarVo"/>
+        <where>  
+            <if test="thirdpeicheId != null  and thirdpeicheId != ''"> and thirdpeiche_id = #{thirdpeicheId}</if>
+            <if test="thirdlaiyuanId != null  and thirdlaiyuanId != ''"> and thirdlaiyuan_id = #{thirdlaiyuanId}</if>
+            <if test="thirdxiadanTime != null "> and thirdxiadan_time = #{thirdxiadanTime}</if>
+            <if test="thirduserNametwo != null  and thirduserNametwo != ''"> and thirduser_nametwo = #{thirduserNametwo}</if>
+            <if test="thirddizhi != null  and thirddizhi != ''"> and thirddizhi_ = #{thirddizhi}</if>
+            <if test="thirdyaoqiuTime != null "> and thirdyaoqiu_time = #{thirdyaoqiuTime}</if>
+            <if test="thirdwanchengState != null  and thirdwanchengState != ''"> and thirdwancheng_state = #{thirdwanchengState}</if>
+        </where>
+    </select>
+    
+    <select id="selectThirdcarByThirddingdanId" parameterType="String" resultMap="ThirdcarResult">
+        <include refid="selectThirdcarVo"/>
+        where thirddingdan_id = #{thirddingdanId}
+    </select>
+        
+    <insert id="insertThirdcar" parameterType="Thirdcar">
+        insert into thirdcar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="thirdpeicheId != null">thirdpeiche_id,</if>
+            <if test="thirddingdanId != null">thirddingdan_id,</if>
+            <if test="thirdlaiyuanId != null">thirdlaiyuan_id,</if>
+            <if test="thirdxiadanTime != null">thirdxiadan_time,</if>
+            <if test="thirduserNametwo != null">thirduser_nametwo,</if>
+            <if test="thirddizhi != null">thirddizhi_,</if>
+            <if test="thirdyaoqiuTime != null">thirdyaoqiu_time,</if>
+            <if test="thirdwanchengState != null">thirdwancheng_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="thirdpeicheId != null">#{thirdpeicheId},</if>
+            <if test="thirddingdanId != null">#{thirddingdanId},</if>
+            <if test="thirdlaiyuanId != null">#{thirdlaiyuanId},</if>
+            <if test="thirdxiadanTime != null">#{thirdxiadanTime},</if>
+            <if test="thirduserNametwo != null">#{thirduserNametwo},</if>
+            <if test="thirddizhi != null">#{thirddizhi},</if>
+            <if test="thirdyaoqiuTime != null">#{thirdyaoqiuTime},</if>
+            <if test="thirdwanchengState != null">#{thirdwanchengState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateThirdcar" parameterType="Thirdcar">
+        update thirdcar
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="thirdpeicheId != null">thirdpeiche_id = #{thirdpeicheId},</if>
+            <if test="thirdlaiyuanId != null">thirdlaiyuan_id = #{thirdlaiyuanId},</if>
+            <if test="thirdxiadanTime != null">thirdxiadan_time = #{thirdxiadanTime},</if>
+            <if test="thirduserNametwo != null">thirduser_nametwo = #{thirduserNametwo},</if>
+            <if test="thirddizhi != null">thirddizhi_ = #{thirddizhi},</if>
+            <if test="thirdyaoqiuTime != null">thirdyaoqiu_time = #{thirdyaoqiuTime},</if>
+            <if test="thirdwanchengState != null">thirdwancheng_state = #{thirdwanchengState},</if>
+        </trim>
+        where thirddingdan_id = #{thirddingdanId}
+    </update>
+
+    <delete id="deleteThirdcarByThirddingdanId" parameterType="String">
+        delete from thirdcar where thirddingdan_id = #{thirddingdanId}
+    </delete>
+
+    <delete id="deleteThirdcarByThirddingdanIds" parameterType="String">
+        delete from thirdcar where thirddingdan_id in 
+        <foreach item="thirddingdanId" collection="array" open="(" separator="," close=")">
+            #{thirddingdanId}
+        </foreach>
+    </delete>
+
+</mapper>

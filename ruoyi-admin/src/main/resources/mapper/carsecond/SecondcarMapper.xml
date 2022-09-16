@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.carsecond.mapper.SecondcarMapper">
+    
+    <resultMap type="Secondcar" id="SecondcarResult">
+        <result property="secondpeicheId"    column="secondpeiche_id"    />
+        <result property="seconddingdanId"    column="seconddingdan_id"    />
+        <result property="secondlaiyuanId"    column="secondlaiyuan_id"    />
+        <result property="secondxiadanTime"    column="secondxiadan_time"    />
+        <result property="seconduserNametwo"    column="seconduser_nametwo"    />
+        <result property="seconddizhi"    column="seconddizhi_"    />
+        <result property="secondyaoqiuTime"    column="secondyaoqiu_time"    />
+        <result property="secondwanchengState"    column="secondwancheng_state"    />
+    </resultMap>
+
+    <sql id="selectSecondcarVo">
+        select secondpeiche_id, seconddingdan_id, secondlaiyuan_id, secondxiadan_time, seconduser_nametwo, seconddizhi_, secondyaoqiu_time, secondwancheng_state from secondcar
+    </sql>
+
+    <select id="selectSecondcarList" parameterType="Secondcar" resultMap="SecondcarResult">
+        <include refid="selectSecondcarVo"/>
+        <where>  
+            <if test="secondpeicheId != null  and secondpeicheId != ''"> and secondpeiche_id = #{secondpeicheId}</if>
+            <if test="secondlaiyuanId != null  and secondlaiyuanId != ''"> and secondlaiyuan_id = #{secondlaiyuanId}</if>
+            <if test="secondxiadanTime != null "> and secondxiadan_time = #{secondxiadanTime}</if>
+            <if test="seconduserNametwo != null  and seconduserNametwo != ''"> and seconduser_nametwo = #{seconduserNametwo}</if>
+            <if test="seconddizhi != null  and seconddizhi != ''"> and seconddizhi_ = #{seconddizhi}</if>
+            <if test="secondyaoqiuTime != null "> and secondyaoqiu_time = #{secondyaoqiuTime}</if>
+            <if test="secondwanchengState != null  and secondwanchengState != ''"> and secondwancheng_state = #{secondwanchengState}</if>
+        </where>
+    </select>
+    
+    <select id="selectSecondcarBySeconddingdanId" parameterType="String" resultMap="SecondcarResult">
+        <include refid="selectSecondcarVo"/>
+        where seconddingdan_id = #{seconddingdanId}
+    </select>
+        
+    <insert id="insertSecondcar" parameterType="Secondcar">
+        insert into secondcar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="secondpeicheId != null">secondpeiche_id,</if>
+            <if test="seconddingdanId != null">seconddingdan_id,</if>
+            <if test="secondlaiyuanId != null">secondlaiyuan_id,</if>
+            <if test="secondxiadanTime != null">secondxiadan_time,</if>
+            <if test="seconduserNametwo != null">seconduser_nametwo,</if>
+            <if test="seconddizhi != null">seconddizhi_,</if>
+            <if test="secondyaoqiuTime != null">secondyaoqiu_time,</if>
+            <if test="secondwanchengState != null">secondwancheng_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="secondpeicheId != null">#{secondpeicheId},</if>
+            <if test="seconddingdanId != null">#{seconddingdanId},</if>
+            <if test="secondlaiyuanId != null">#{secondlaiyuanId},</if>
+            <if test="secondxiadanTime != null">#{secondxiadanTime},</if>
+            <if test="seconduserNametwo != null">#{seconduserNametwo},</if>
+            <if test="seconddizhi != null">#{seconddizhi},</if>
+            <if test="secondyaoqiuTime != null">#{secondyaoqiuTime},</if>
+            <if test="secondwanchengState != null">#{secondwanchengState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSecondcar" parameterType="Secondcar">
+        update secondcar
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="secondpeicheId != null">secondpeiche_id = #{secondpeicheId},</if>
+            <if test="secondlaiyuanId != null">secondlaiyuan_id = #{secondlaiyuanId},</if>
+            <if test="secondxiadanTime != null">secondxiadan_time = #{secondxiadanTime},</if>
+            <if test="seconduserNametwo != null">seconduser_nametwo = #{seconduserNametwo},</if>
+            <if test="seconddizhi != null">seconddizhi_ = #{seconddizhi},</if>
+            <if test="secondyaoqiuTime != null">secondyaoqiu_time = #{secondyaoqiuTime},</if>
+            <if test="secondwanchengState != null">secondwancheng_state = #{secondwanchengState},</if>
+        </trim>
+        where seconddingdan_id = #{seconddingdanId}
+    </update>
+
+    <delete id="deleteSecondcarBySeconddingdanId" parameterType="String">
+        delete from secondcar where seconddingdan_id = #{seconddingdanId}
+    </delete>
+
+    <delete id="deleteSecondcarBySeconddingdanIds" parameterType="String">
+        delete from secondcar where seconddingdan_id in 
+        <foreach item="seconddingdanId" collection="array" open="(" separator="," close=")">
+            #{seconddingdanId}
+        </foreach>
+    </delete>
+
+</mapper>
